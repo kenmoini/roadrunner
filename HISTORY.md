@@ -15,6 +15,10 @@ go mod init github.com/kenmoini/roadrunner
 
 ## Add some modules
 go get gopkg.in/yaml.v2
+go get go.uber.org/zap
+go get github.com/mholt/acmez
+go get golang.org/x/sys/unix
+go get golang.org/x/exp/slices
 
 ## Build test
 go build

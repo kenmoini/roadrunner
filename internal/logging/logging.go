@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 	"strings"
+
+	"github.com/kenmoini/roadrunner/internal/helpers"
 )
 
 // logNetworkRequestStdOut adds a logger wrapper to add extra network client information to the log
@@ -32,6 +34,11 @@ func LogStdErr(s string) {
 	log.Fatalf("[ERROR] %s\n", string(s))
 }
 
+// LogErrorToStdErr just logs an error object to stderr
+func LogErrorToStdErr(e error) {
+	log.Fatalf("[ERROR] %v\n", e)
+}
+
 // Stoerr wraps a string in an error object
 func Stoerr(s string) error {
 	return &errorString{s}
@@ -44,10 +51,14 @@ func Check(e error, message string) {
 	}
 }
 
-// checkAndFail checks for an error type and fails
-func CheckAndFail(e error, message string) {
+// CheckAndFail checks for an error type and fails
+func CheckAndFail(e error, message string, displayHelp bool) {
 	if e != nil {
-		log.Fatalf("[FAIL] %s - %v", message, e)
+		log.Printf("[FAIL] %s - %v", message, e)
+		if displayHelp {
+			helpers.DisplayHelp()
+		}
+		log.Fatalf("[FAIL] Exiting...")
 	}
 }
 

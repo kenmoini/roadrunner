@@ -1,0 +1,31 @@
+---
+roadrunner:
+  config:
+    mode: cli
+    working_dir: ./.generated # default/optional, stores client certificates
+    #working_dir: /etc/pki/roadrunner # default/optional, stores client certificates
+    # http_proxy: optional
+    #http_proxy: http://192.168.42.31:3127
+    # https_proxy: optional
+    #https_proxy: http://192.168.42.31:3127
+    # no_proxy: optional
+    #no_proxy: localhost,127.0.0.1,.kemo.labs,.kemo.network
+    skip_tls_verify: false # default/optional
+  issuers:
+  - name: kemo-labs-stepca
+    type: "none" # enum: dns-01, http-01, none
+    endpoint: https://step-ca.kemo.labs:443/acme/acme/directory
+    #ca_file: /path/to/optional/ca/file.ca # optional
+    skip_tls_verify: true # defaults to false
+  certificates:
+  - domains:
+    - kemo.labs
+    - "*.kemo.labs"
+    issuer: kemo-labs-stepca
+    email: "ken@kenmoini.com"
+    save_type: "pem-pair"
+    save_paths:
+      cert: "/opt/roadrunner/certs/kemo.labs.pem"
+      key: "/opt/roadrunner/certs/kemo.labs.key"
+    restart_cmd: "logger -t roadrunner -p local0.info 'restarting roadrunner'"
+    renew_days: 30
